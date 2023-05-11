@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const {Professor} = require('./modules/professor')
+const bcrypt = require("bcrypt");
+const {Professor} = require('E:\\SBU\\Term8\\Web Application Development\\HWs\\2\\code\\src\\modules\\professor.js');
 
 module.exports = new (
     class{

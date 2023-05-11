@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const timestamps = require('mongoose-timestamps');
+const timestamps = require('mongoose-timestamp');
 const User = require('./user');
 
 const ITmanagerSchema = mongoose.Schema(

@@ -11,12 +11,12 @@ mongoose.connect(process.env.MONGODB_URL,
         useNewUrlparser: true,
         useUnifiedTopology: true
     }
-    ).then(()=> console.log("OK"))
-    .catch((e)=> console.log("ERROR"))
+    ).then(()=> console.log("Connect to MongoDB: OK"))
+    .catch((e)=> console.log("Connect to MongoDB: ERROR"))
 
 app.use('/', router)
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, ()=> {
     console.log(`listening on port ${PORT}`)
 })

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const timestamps = require('mongoose-timestamps');
+const timestamps = require('mongoose-timestamp');
 
 const userSchema = mongoose.Schema(
     {
@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema(
         },
     },
     {
-        discreminatorKey: 'user_type',
+        discriminatorKey: 'user_type',
     }
 );
 
