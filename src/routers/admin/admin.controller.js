@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const {Student} = require('E:\\SBU\\Term8\\Web Application Development\\HWs\\2\\code\\src\\modules\\student.js');
 const {Professor} = require('E:\\SBU\\Term8\\Web Application Development\\HWs\\2\\code\\src\\modules\\professor.js');
+const {EducationalManager} = require("../../modules/educational_manager");
 
 module.exports = new (
     class{
@@ -292,6 +293,137 @@ module.exports = new (
             res.json({
                 data: students,
                 message: 'GET STUDENTS: DONE'
+            });
+        }
+
+        async createManager(req, res) {
+            const { 
+                first_name,
+                last_name,
+                email,
+                phone,
+                password,
+                employee_id,
+                faculty
+            } = req.body;
+
+            const salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(password, salt);
+
+            const new_manager = new EducationalManager({
+                first_name,
+                last_name,
+                email,
+                phone,
+                password,
+                employee_id,
+                faculty
+            });
+
+            await new_manager.save();
+            console.log(new_manager);
+            res.status(200).json({
+                data: new_manager,
+                message: 'Creating Manager: DONE'
+            });
+        }
+
+        async updateManager(req, res) {
+            const manager_id = req.params.id;
+
+            if(isNaN(manager_id)) {
+                return res.status(404).json('ERROR MANAGER ID');
+            }
+
+            let{
+                first_name,
+                last_name,
+                email,
+                phone,
+                password,
+                faculty
+            } = req.body;
+
+            const salt = await bcrypt.genSalt(10);
+            password = await bcrypt.hash(password, salt);
+
+            try {
+                const edited_manager = await EducationalManager.findOneAndUpdate(
+                    {manager_id},
+                    {
+                        first_name,
+                        last_name,
+                        email,
+                        phone,
+                        password,
+                        faculty
+                    },
+                    {new: true, select: "-password"}
+                );
+
+                if(!edited_manager) {
+                    return res.status(404).json('NOT FOUND: MANAGER');
+                }
+                return res.send(edited_manager);
+
+            } catch (error) {
+                return res.status(500).json('ERROR: UPDATE MANAGER')
+            }
+        }
+
+        async deleteManager(req, res) {
+            const manager_id = req.params.id;
+
+            if(isNaN(manager_id)) {
+                return res.status(404).json('ERROR MANAGER ID');
+            }
+
+            const deleted_manager = await EducationalManager.findOneAndDelete({manager_id});
+
+            if(!deleted_manager) {
+                res.status(404).json('ERROR MANAGER ID');
+                return;
+            }
+
+            if(deleted_manager.user_type != 'educational_manager') {
+                res.send('NOT MANAGER');
+            }
+
+            res.status(200).json({
+                data: deleted_manager,
+                message: 'Deleting Manager: DONE'
+            });
+        }
+
+        async getManager(req, res) {
+            const manager_id = req.params.id;
+
+            if(isNaN(manager_id)) {
+                return res.status(404).sebd('ERROR MANAGER ID')
+            }
+
+            const manager = await EducationalManager.findOne({manager_id}).select("-password");
+            
+            if(!manager) {
+                res.status(404).json({
+                    data: null,
+                    message: 'NO MANAGER WITH THIS ID'
+                });
+                return;
+            }
+
+            res.status(200).json({
+                data: manager,
+                message: "FINDING MANAGER: DONE"
+            });
+
+        }
+
+        async getManagers(req, res) {
+            const managers = await EducationalManager.find().populate().select("-password");
+            res.json({
+                data: managers,
+                message: 'GET MANAGERS: DONE'
             });
         }
     }

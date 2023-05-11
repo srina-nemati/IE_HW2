@@ -131,5 +131,43 @@ module.exports = new (
         
             next();
         }
+
+        createManager(req, res, next) {
+            const schema = Joi.object({
+                employee_id: Joi.string().uuid().required(),
+                faculty: Joi.string().required()
+            });
+        
+            const {error, data} = schema.validate(req.body);
+        
+            if(error) {
+                return res.status(400).json({error: error.details[0].message });
+            }
+        
+            req.validatedData = {
+                employee_id: data.employee_id,
+                faculty: data.faculty
+            };
+        
+            next();
+        }
+
+        updateManager(req, res, next) {
+            const schema = Joi.object({
+                faculty: Joi.string().required()
+            });
+        
+            const {error, data} = schema.validate(req.body);
+        
+            if(error) {
+                return res.status(400).json({error: error.details[0].message });
+            }
+        
+            req.validatedData = {
+                faculty: data.faculty
+            };
+        
+            next();
+        }
     }
 )

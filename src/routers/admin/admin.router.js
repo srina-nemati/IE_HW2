@@ -61,5 +61,34 @@ router.get(
     adminController.getStudent.bind(adminController)
 )
 
+router.post(
+    "/manager",
+    adminValidator.validateGeneralFields,
+    adminValidator.createManager,
+    adminController.createManager.bind(adminController)
+)
+
+router.put(
+    "/manager/:id",
+    adminValidator.validateGeneralFields,
+    adminValidator.updateManager,
+    adminController.updateManager.bind(adminController)
+)
+
+router.delete(
+    "/manager/:id",
+    adminController.deleteManager.bind(adminController)
+)
+
+router.get(
+    "/managers",
+    adminController.getManagers.bind(adminController)
+)
+
+router.get(
+    "/manager/:id",
+    adminController.getManager.bind(adminController)
+)
+
 
 module.exports = router

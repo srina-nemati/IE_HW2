@@ -17,5 +17,5 @@ const EducationalManagerSchema = mongoose.Schema(
 );
 
 EducationalManagerSchema.plugin(timestamps);
-const EducationalManager = User.discriminator('educational_manager', studentSchema);
+const EducationalManager = User.discriminator('educational_manager', EducationalManagerSchema);
 module.exports = EducationalManager;
