@@ -7,7 +7,7 @@ module.exports = new (
                 first_name: Joi.string().required(),
                 last_name: Joi.string().required(),
                 email: Joi.string().required().email(),
-                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{10}$`)),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
                 password: Joi.string().required(),
             });
         
@@ -30,7 +30,7 @@ module.exports = new (
         
         createProf(req, res, next) {
             const schema = Joi.object({
-                professor_id: Joi.number().required(),
+                professor_id: Joi.string().uuid().required(),
                 faculty: Joi.string().required(),
                 major: Joi.string().required(),
                 education_level: Joi.string().required(),
@@ -69,6 +69,64 @@ module.exports = new (
                 faculty: data.faculty,
                 major: data.major,
                 education_level: data.education_level
+            };
+        
+            next();
+        }
+
+        createStudent(req, res, next) {
+            const schema = Joi.object({
+                student_id: Joi.string().uuid().required(),
+                score: Joi.number().required(),
+                level: Joi.string().required(),
+                faculty: Joi.string().required(),
+                major: Joi.string().required(),
+                entrance_year: Joi.number().required(),
+                semester_year: Joi.number().required()
+            });
+        
+            const {error, data} = schema.validate(req.body);
+        
+            if(error) {
+                return res.status(400).json({error: error.details[0].message });
+            }
+        
+            req.validatedData = {
+                student_id: data.student_id,
+                score: data.score,
+                level: data.level,
+                faculty: data.faculty,
+                major: data.major,
+                entrance_year: data.entrance_year,
+                semester_year: data.semester_year
+            };
+        
+            next();
+        }
+
+        updateStudent(req, res, next) {
+            const schema = Joi.object({
+                score: Joi.number().required(),
+                level: Joi.string().required(),
+                major: Joi.string().required(),
+                faculty: Joi.string().required(),
+                entrance_year: Joi.number().required(),
+                semester_year: Joi.number().required()
+            });
+        
+            const {error, data} = schema.validate(req.body);
+        
+            if(error) {
+                return res.status(400).json({error: error.details[0].message });
+            }
+        
+            req.validatedData = {
+                score: data.score,
+                level: data.level,
+                major: data.major,
+                faculty: data.faculty,
+                entrance_year: data.entrance_year,
+                semester_year: data.semester_year
             };
         
             next();
