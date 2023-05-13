@@ -1,29 +1,51 @@
 const bcrypt = require("bcrypt");
-const {User} = require("../../modules/user");
+const User = require("../../modules/user");
 const jwt = require("jsonwebtoken");
 
-module.exports = new (
-    class {
-        async login(req, res) {
-            const {email, password} = req.body;
-            const loginEmail = await User.findOne({email})
+const createToken = (user) => {
+  const token = jwt.sign(
+    {
+      user_id: user._id,
+      email: user.email,
+    },
+    process.env.JWT_TOKEN,
+    {
+      expiresIn: '1h',
+    }
+  );
 
-            if(!loginEmail) {
-                return res.status(401).json({message: "NO USER FOUND WITH THIS EMAIL"});
-            }
+  return token;
+};
 
-            const passwordChecker = await bcrypt.compare(loginEmail.password, password);
+module.exports = {
+  async login(req, res) {
+    const { email, password } = req.validatedData;
 
-            if(!passwordChecker) {
-                return res.status(401).json({message: "WRONG PASSWORD"});
-            }
+    try {
+      const user = await User.findOne({ email });
 
-            const token = jwt.sign({ userID: loginEmail._userID }, process.env.JWT_TOKEN, { expiresIn: '1h' });
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid email' });
+      }
 
-            jwt.verify(token, 'my-secret-key', (err, decoded) => {
-            if (err) {
-                // Handle verification error
-            } else {
-                // Use the decoded payload
-            }
-})
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
+      const token = createToken(user);
+
+      return res.status(200).json({
+        user_type: user.user_type,
+        user_id: user.first_name,
+        email: user.last_name,
+        token: token,
+      });
+
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  },
+};

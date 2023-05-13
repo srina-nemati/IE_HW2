@@ -32,7 +32,7 @@ module.exports = new (
         async checkManagerIdUnique(req, res, next) {
             const ID = req.body.employee_id;
           
-            const existingID = await Manager.findOne({ employee_id: ID });
+            const existingID = await EducationalManager.findOne({ employee_id: ID });
           
             if (existingID) {
               return res.status(400).json({ error: 'The employee_id already exists' });
