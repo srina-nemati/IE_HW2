@@ -9,10 +9,11 @@ module.exports = new (
                 email: Joi.string().required().email(),
                 phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
                 password: Joi.string().required(),
-            });
-        
+            });  
+
             const {error, data} = schema.validate(req.body);
-        
+            console.log(data)
+            
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
@@ -30,9 +31,9 @@ module.exports = new (
         
         createProf(req, res, next) {
             const schema = Joi.object({
-                professor_id: Joi.string().uuid().required(),
-                faculty: Joi.string().required(),
+                professor_id: Joi.string().required(),
                 major: Joi.string().required(),
+                faculty: Joi.string().required(),
                 education_level: Joi.string().required(),
             });
         
@@ -44,8 +45,8 @@ module.exports = new (
         
             req.validatedData = {
                 professor_id: data.professor_id,
-                faculty: data.faculty,
                 major: data.major,
+                faculty: data.faculty,
                 education_level: data.education_level
             };
         

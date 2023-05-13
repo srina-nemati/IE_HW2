@@ -6,7 +6,7 @@ const professorSchema = mongoose.Schema(
     {
         professor_id: {
             required: true,
-            type: Number,
+            type: String,
             unique: true
         },
         major: {
