@@ -2,7 +2,6 @@ const express = require('express');
 const router = require('./src/routers/router');
 const app = express();
 require("dotenv").config();
-// app.listen(4000, ()=> console.log("server is running"));
 app.use(express.json());
 
 const mongoose = require('mongoose');
@@ -17,11 +16,6 @@ mongoose.connect(process.env.MONGODB_URL,
 
 app.use('/', router);
 
-// const bodyParser = require('body-Parser');
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-
-// const PORT = process.env.PORT || 4000;
 app.listen(3000, ()=> {
     console.log(`listening on port`)
 }) 

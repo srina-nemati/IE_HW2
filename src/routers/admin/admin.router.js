@@ -5,14 +5,13 @@ const adminController = require('./admin.controller')
 
 router.post(
     "/Professor",
-    adminValidator.validateGeneralFields,
     adminValidator.createProf,
+    adminController.checkProfessorIdUnique,
     adminController.createProf.bind(adminController)
 )
 
 router.put(
     "/Professor/:id",
-    adminValidator.validateGeneralFields,
     adminValidator.updateProf,
     adminController.updateProf.bind(adminController)
 )
@@ -34,14 +33,13 @@ router.get(
 
 router.post(
     "/student",
-    adminValidator.validateGeneralFields,
     adminValidator.createStudent,
+    adminController.checkStudentIdUnique,
     adminController.createStudent.bind(adminController)
 )
 
 router.put(
     "/student/:id",
-    adminValidator.validateGeneralFields,
     adminValidator.updateStudent,
     adminController.updateStudent.bind(adminController)
 )
@@ -63,14 +61,13 @@ router.get(
 
 router.post(
     "/manager",
-    adminValidator.validateGeneralFields,
     adminValidator.createManager,
+    adminController.checkManagerIdUnique,
     adminController.createManager.bind(adminController)
 )
 
 router.put(
     "/manager/:id",
-    adminValidator.validateGeneralFields,
     adminValidator.updateManager,
     adminController.updateManager.bind(adminController)
 )

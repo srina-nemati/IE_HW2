@@ -1,82 +1,61 @@
 const Joi = require('joi');
 
 module.exports = new (
-    class {
-        validateGeneralFields(req, res, next) {
+    class {      
+        createProf(req, res, next) {
             const schema = Joi.object({
                 first_name: Joi.string().required(),
                 last_name: Joi.string().required(),
                 email: Joi.string().required().email(),
                 phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
                 password: Joi.string().required(),
-            });  
-
-            const {error, data} = schema.validate(req.body);
-            console.log(data)
-            
-            if(error) {
-                return res.status(400).json({error: error.details[0].message });
-            }
-        
-            req.validatedData = {
-                first_name: data.first_name,
-                last_name: data.last_name,
-                email: data.email,
-                phone: data.phone,
-                password: data.password
-            };
-        
-            next();
-        }
-        
-        createProf(req, res, next) {
-            const schema = Joi.object({
                 professor_id: Joi.string().required(),
                 major: Joi.string().required(),
                 faculty: Joi.string().required(),
-                education_level: Joi.string().required(),
+                education_level: Joi.string().required()
             });
-        
-            const {error, data} = schema.validate(req.body);
+
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
-        
-            req.validatedData = {
-                professor_id: data.professor_id,
-                major: data.major,
-                faculty: data.faculty,
-                education_level: data.education_level
-            };
+    
+            req.validatedData = val;
         
             next();
         }
 
         updateProf(req, res, next) {
             const schema = Joi.object({
+                first_name: Joi.string().required(),
+                last_name: Joi.string().required(),
+                email: Joi.string().required().email(),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
+                password: Joi.string().required(),
                 faculty: Joi.string().required(),
                 major: Joi.string().required(),
                 education_level: Joi.string().required(),
             });
         
-            const {error, data} = schema.validate(req.body);
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
         
-            req.validatedData = {
-                faculty: data.faculty,
-                major: data.major,
-                education_level: data.education_level
-            };
+            req.validatedData = val;
         
             next();
         }
 
         createStudent(req, res, next) {
             const schema = Joi.object({
+                first_name: Joi.string().required(),
+                last_name: Joi.string().required(),
+                email: Joi.string().required().email(),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
+                password: Joi.string().required(),
                 student_id: Joi.string().uuid().required(),
                 score: Joi.number().required(),
                 level: Joi.string().required(),
@@ -86,27 +65,24 @@ module.exports = new (
                 semester_year: Joi.number().required()
             });
         
-            const {error, data} = schema.validate(req.body);
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
         
-            req.validatedData = {
-                student_id: data.student_id,
-                score: data.score,
-                level: data.level,
-                faculty: data.faculty,
-                major: data.major,
-                entrance_year: data.entrance_year,
-                semester_year: data.semester_year
-            };
+            req.validatedData = val;
         
             next();
         }
 
         updateStudent(req, res, next) {
             const schema = Joi.object({
+                first_name: Joi.string().required(),
+                last_name: Joi.string().required(),
+                email: Joi.string().required().email(),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
+                password: Joi.string().required(),
                 score: Joi.number().required(),
                 level: Joi.string().required(),
                 major: Joi.string().required(),
@@ -115,58 +91,56 @@ module.exports = new (
                 semester_year: Joi.number().required()
             });
         
-            const {error, data} = schema.validate(req.body);
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
         
-            req.validatedData = {
-                score: data.score,
-                level: data.level,
-                major: data.major,
-                faculty: data.faculty,
-                entrance_year: data.entrance_year,
-                semester_year: data.semester_year
-            };
+            req.validatedData = val;
         
             next();
         }
 
         createManager(req, res, next) {
             const schema = Joi.object({
+                first_name: Joi.string().required(),
+                last_name: Joi.string().required(),
+                email: Joi.string().required().email(),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
+                password: Joi.string().required(),
                 employee_id: Joi.string().uuid().required(),
                 faculty: Joi.string().required()
             });
         
-            const {error, data} = schema.validate(req.body);
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
         
-            req.validatedData = {
-                employee_id: data.employee_id,
-                faculty: data.faculty
-            };
+            req.validatedData = val;
         
             next();
         }
 
         updateManager(req, res, next) {
             const schema = Joi.object({
+                first_name: Joi.string().required(),
+                last_name: Joi.string().required(),
+                email: Joi.string().required().email(),
+                phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
+                password: Joi.string().required(),
                 faculty: Joi.string().required()
             });
         
-            const {error, data} = schema.validate(req.body);
+            const {error, value: val} = schema.validate(req.body);
         
             if(error) {
                 return res.status(400).json({error: error.details[0].message });
             }
         
-            req.validatedData = {
-                faculty: data.faculty
-            };
+            req.validatedData = val;
         
             next();
         }

@@ -1,10 +1,46 @@
 const bcrypt = require("bcrypt");
-const {Student} = require('E:\\SBU\\Term8\\Web Application Development\\HWs\\2\\code\\src\\modules\\student.js');
-const {Professor} = require('E:\\SBU\\Term8\\Web Application Development\\HWs\\2\\code\\src\\modules\\professor.js');
-const {EducationalManager} = require("../../modules/educational_manager");
+const Student = require('../../modules/student.js');
+const Professor = require('../../modules/professor.js');
+const EducationalManager = require("../../modules/educational_manager");
 
 module.exports = new (
     class{
+        async checkProfessorIdUnique(req, res, next) {
+            const professorId = req.body.professor_id;
+          
+            const existingProfessor = await Professor.findOne({ professor_id: professorId });
+          
+            if (existingProfessor) {
+              return res.status(400).json({ error: 'The professor_id already exists' });
+            }
+          
+            next();
+        }
+
+        async checkStudentIdUnique(req, res, next) {
+            const ID = req.body.student_id;
+          
+            const existingID = await Student.findOne({ student_id: ID });
+          
+            if (existingID) {
+              return res.status(400).json({ error: 'The student_id already exists' });
+            }
+          
+            next();
+        }
+
+        async checkManagerIdUnique(req, res, next) {
+            const ID = req.body.employee_id;
+          
+            const existingID = await Manager.findOne({ employee_id: ID });
+          
+            if (existingID) {
+              return res.status(400).json({ error: 'The employee_id already exists' });
+            }
+          
+            next();
+        }
+
         async createProf(req, res) {
             const { 
                 first_name,
@@ -19,22 +55,22 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             const new_prof = new Professor({
                 first_name,
                 last_name,
                 email,
                 phone,
-                password,
+                password: hash_password,
                 professor_id,
                 major,
                 faculty,
                 education_level,
             });
 
-            await new_prof.save();
-            console.log(new_prof);
+            await new_prof.save(); 
+
             res.status(200).json({
                 data: new_prof,
                 message: 'Creating Professor: DONE'
@@ -60,7 +96,7 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             try {
                 const edited_prof = await Professor.findOneAndUpdate(
@@ -70,7 +106,7 @@ module.exports = new (
                         last_name,
                         email,
                         phone,
-                        password,
+                        password: hash_password,
                         major,
                         faculty,
                         education_level,
@@ -161,14 +197,14 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             const new_student = new Student({
                 first_name,
                 last_name,
                 email,
                 phone,
-                password,
+                password: hash_password,
                 student_id,
                 score,
                 level,
@@ -179,7 +215,6 @@ module.exports = new (
             });
 
             await new_student.save();
-            console.log(new_student);
             res.status(200).json({
                 data: new_student,
                 message: 'Creating Student: DONE'
@@ -208,7 +243,7 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             try {
                 const edited_student = await Student.findOneAndUpdate(
@@ -218,7 +253,7 @@ module.exports = new (
                         last_name,
                         email,
                         phone,
-                        password,
+                        password: hash_password,
                         score,
                         level,
                         major,
@@ -308,20 +343,19 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             const new_manager = new EducationalManager({
                 first_name,
                 last_name,
                 email,
                 phone,
-                password,
+                password: hash_password,
                 employee_id,
                 faculty
             });
 
             await new_manager.save();
-            console.log(new_manager);
             res.status(200).json({
                 data: new_manager,
                 message: 'Creating Manager: DONE'
@@ -345,7 +379,7 @@ module.exports = new (
             } = req.body;
 
             const salt = await bcrypt.genSalt(10);
-            password = await bcrypt.hash(password, salt);
+            const hash_password = await bcrypt.hash(password, salt);
 
             try {
                 const edited_manager = await EducationalManager.findOneAndUpdate(
@@ -355,7 +389,7 @@ module.exports = new (
                         last_name,
                         email,
                         phone,
-                        password,
+                        password: hash_password,
                         faculty
                     },
                     {new: true, select: "-password"}
