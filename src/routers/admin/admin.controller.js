@@ -81,7 +81,7 @@ module.exports = new (
             const professor_id = req.params.id;
 
             if(isNaN(professor_id)) {
-                return res.status(404).json('ERROR PROFESSOR ID');
+                return res.status(204).json('ERROR PROFESSOR ID');
             }
 
             let{
@@ -128,7 +128,7 @@ module.exports = new (
             const professor_id = req.params.id;
 
             if(isNaN(professor_id)) {
-                return res.status(404).json('ERROR PROFESSOR ID');
+                return res.status(204).json('ERROR PROFESSOR ID');
             }
 
             const deleted_prof = await Professor.findOneAndDelete({professor_id});
@@ -139,7 +139,7 @@ module.exports = new (
             }
 
             if(deleted_prof.user_type != 'Professor') {
-                res.send('NOT PROFESSOR');
+                res.status(400).json('NOT PROFESSOR');
             }
 
             res.status(200).json({
@@ -225,7 +225,7 @@ module.exports = new (
             const student_id = req.params.id;
 
             if(isNaN(student_id)) {
-                return res.status(404).json('ERROR STUDENT ID');
+                return res.status(204).json('ERROR STUDENT ID');
             }
 
             let{
@@ -279,7 +279,7 @@ module.exports = new (
             const student_id = req.params.id;
 
             if(isNaN(student_id)) {
-                return res.status(404).json('ERROR STUDENT ID');
+                return res.status(204).json('ERROR STUDENT ID');
             }
 
             const deleted_student = await Student.findOneAndDelete({student_id});
@@ -290,7 +290,7 @@ module.exports = new (
             }
 
             if(deleted_student.user_type != 'student') {
-                res.send('NOT STUDENT');
+                res.status(400).json('NOT STUDENT');
             }
 
             res.status(200).json({
@@ -366,7 +366,7 @@ module.exports = new (
             const manager_id = req.params.id;
 
             if(isNaN(manager_id)) {
-                return res.status(404).json('ERROR MANAGER ID');
+                return res.status(204).json('ERROR MANAGER ID');
             }
 
             let{
@@ -409,7 +409,7 @@ module.exports = new (
             const manager_id = req.params.id;
 
             if(isNaN(manager_id)) {
-                return res.status(404).json('ERROR MANAGER ID');
+                return res.status(204).json('ERROR MANAGER ID');
             }
 
             const deleted_manager = await EducationalManager.findOneAndDelete({manager_id});
@@ -420,7 +420,7 @@ module.exports = new (
             }
 
             if(deleted_manager.user_type != 'educational_manager') {
-                res.send('NOT MANAGER');
+                res.status(400).json('NOT MANAGER');
             }
 
             res.status(200).json({

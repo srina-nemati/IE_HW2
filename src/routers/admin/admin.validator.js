@@ -56,7 +56,7 @@ module.exports = new (
                 email: Joi.string().required().email(),
                 phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
                 password: Joi.string().required(),
-                student_id: Joi.string().uuid().required(),
+                student_id: Joi.string().required(),
                 score: Joi.number().required(),
                 level: Joi.string().required(),
                 faculty: Joi.string().required(),
@@ -109,7 +109,7 @@ module.exports = new (
                 email: Joi.string().required().email(),
                 phone: Joi.string().required().pattern(new RegExp(`^[0-9]{12}$`)),
                 password: Joi.string().required(),
-                employee_id: Joi.string().uuid().required(),
+                employee_id: Joi.string().required(),
                 faculty: Joi.string().required()
             });
         
