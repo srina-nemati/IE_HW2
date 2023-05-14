@@ -149,13 +149,13 @@ module.exports = new (
         }
 
         async getProf(req, res) {
-            const prof_id = req.params.id;
+            const professor_id = req.params.id;
 
-            if(isNaN(prof_id)) {
+            if(isNaN(professor_id)) {
                 return res.status(404).sebd('ERROR PROFESSOR ID')
             }
 
-            const prof = await Professor.findOne({prof_id}).select("-password");
+            const prof = await Professor.findOne({professor_id}).select("-password");
             
             if(!prof) {
                 res.status(404).json({

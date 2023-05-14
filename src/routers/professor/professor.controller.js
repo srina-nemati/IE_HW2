@@ -1,14 +1,14 @@
-const Student = require('../../modules/student');
+const Professor = require('../../modules/professor');
 const Course = require('../../modules/semester_course');
 
 
 module.exports = new (
     class {
-        async editStudent(req, res) {
-            const student_id = req.params.id;
+        async editProfessor(req, res) {
+            const professor_id = req.params.id;
 
-            if(isNaN(student_id)) {
-                return res.status(204).json('ERROR STUDENT ID');
+            if(isNaN(professor_id)) {
+                return res.status(204).json('ERROR PROFESSOR ID');
             }
 
             let{
@@ -20,8 +20,8 @@ module.exports = new (
             } = req.body;
 
             try {
-                const edited_student = await Student.findOneAndUpdate(
-                    {student_id},
+                const edited = await Professor.findOneAndUpdate(
+                    {professor_id},
                     {
                         first_name,
                         last_name,
@@ -30,14 +30,14 @@ module.exports = new (
                         password
                     });
 
-                if(!edited_student) {
-                    return res.status(404).json('NOT FOUND: STUDENT');
+                if(!edited) {
+                    return res.status(404).json('NOT FOUND: PROFESSOR');
                 }
 
-                return res.status(200).json(edited_student);
+                return res.status(200).json(edited);
 
             } catch (error) {
-                return res.status(500).json('ERROR: UPDATE STUDENT')
+                return res.status(500).json('ERROR: UPDATE PROFESSOR')
             }
         }
 

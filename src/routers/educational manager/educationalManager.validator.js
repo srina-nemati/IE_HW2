@@ -5,7 +5,8 @@ module.exports = new (
         addCourse(req, res, next) {
             const schema = Joi.object({
                 course_id: Joi.string().required(),
-                course_name: Joi.string(),
+                course_name: Joi.string().required(),
+                major: Joi.string().required(),
                 prerequisite: Joi.string(),
                 needs: Joi.string(),
                 unit: Joi.number().required(),
@@ -30,7 +31,8 @@ module.exports = new (
 
         editCourse(req, res, next) {
             const schema = Joi.object({
-                course_name: Joi.string(),
+                course_name: Joi.string().required(),
+                major: Joi.string().required(),
                 prerequisite: Joi.string(),
                 needs: Joi.string(),
                 unit: Joi.number().required(),

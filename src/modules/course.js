@@ -11,6 +11,10 @@ const courseSchema = mongoose.Schema({
         required: true,
         type: String
     },
+    major: {
+        required: true,
+        type: String
+    },
     prerequisite: {
         required: false,
         type: String,

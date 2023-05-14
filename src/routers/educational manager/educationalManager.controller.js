@@ -105,6 +105,7 @@ module.exports = new (
             const { 
                 course_id,
                 course_name,
+                major,
                 prerequisite,
                 needs,
                 unit,
@@ -119,6 +120,7 @@ module.exports = new (
             const new_course = new Course({
                 course_id,
                 course_name,
+                major,
                 prerequisite,
                 needs,
                 unit,
@@ -146,6 +148,7 @@ module.exports = new (
 
             let{
                 course_name,
+                major,
                 prerequisite,
                 needs,
                 unit,
@@ -162,6 +165,7 @@ module.exports = new (
                     {course_id: id},
                     {
                         course_name,
+                        major,
                         prerequisite,
                         needs,
                         unit,
