@@ -42,15 +42,45 @@ module.exports = new (
         }
 
         async getCourse(req, res) {
-
-        }
+            const courseId = req.params.id; 
+          
+            try {
+              const course = await Course.findById(courseId);
+          
+              if (!course) {
+                return res.status(404).json('COURSE NOT FOUND');
+              }
+          
+              return res.status(200).json({
+                data: course,
+                message: 'GET COURSE: DONE'
+              });
+          
+            } catch (error) {
+              return res.status(500).json('ERROR: GET COURSE');
+            }
+          }
+          
 
         async getCourses(req, res) {
-            const courses = (await Course.find().populate()).filter();
-            res.json({
+            const major = req.query.major; // assuming the major is passed in as a query parameter
+          
+            try {
+              const courses = await Course.find({ major: major });
+          
+              if (!courses || courses.length === 0) {
+                return res.status(404).json('NO COURSES FOUND FOR MAJOR');
+              }
+          
+              return res.status(200).json({
                 data: courses,
                 message: 'GET COURSES: DONE'
-            });
-        }
+              });
+          
+            } catch (error) {
+              return res.status(500).json('ERROR: GET COURSES');
+            }
+          }
+          
     }
 )
